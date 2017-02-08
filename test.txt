@@ -1,6 +1,0 @@
-http://repo.msys2.org/msys/x86_64/
-http://repo.msys2.org/mingw/x86_64/
-https://sourceforge.net/projects/msys2/files/REPOS/MSYS2/x86_64/
-https://sourceforge.net/projects/msys2/files/REPOS/MINGW/x86_64/
-http://www2.futureware.at/~nickoe/msys2-mirror/msys/x86_64/
-http://www2.futureware.at/~nickoe/msys2-mirror/mingw/x86_64/
