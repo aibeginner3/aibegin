@@ -3,32 +3,78 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 
 f=open('data.csv','r')
 data0=csv.reader(f)
 data = [ v for v in data0]
 #for row in data:
 #	print row
-print data
-data_conved = [[int(elm) for elm in v] for v in data]
-print data_conved
-f.close()
-
-#data=np.loadtxt('data.csv',delimiter='')
 #print data
+data_conved = [[int(elm) for elm in v] for v in data]
+#print data_conved
+f.close()
+print len(data_conved)
 
 n=10
-x=np.linspace(-1,1,n)
+x=np.linspace(50,80,4)
 #print x
-y=np.linspace(-1,1,n)
+y=np.linspace(90,140,6)
 #print y
 X,Y=np.meshgrid(x,y)
-Z=np.sqrt(X**2+Y**2)
+Z=np.array(data_conved)
+#Z=np.sqrt(X**2+Y**2)
 
 #print X
 #print Y
 #print Z
 
-plt.contour(X,Y,Z)
-plt.gca().set_aspect('equal')
+#plt.contour(X,Y,Z)
+#plt.gca().set_aspect('equal')
 #plt.show()
+
+#CR = plt.contour(X,Y,Z)
+#CR.clabel(fontsize=10,fmt='%3.1f')
+#CR.clabel([5,7],fontsize=10,fmt='%3.1f')
+#levels=CR.levels
+#CR.clabel(levels[levels>4])
+#plt.show()
+
+#plt.clabel(CR,fontsize=10,fmt='%3.1f')
+#[xmin,xmax,ymin,ymax] = [30,100,40,100]
+[xmin,xmax,ymin,ymax] = [50,80,90,140]
+#print xmin
+#print xmax
+#print ymin
+#print ymax
+#plt.contour(Z, extent=[xmin,xmax,ymin,ymax])
+
+#CR = plt.contour(Z, extent=[xmin,xmax,ymin,ymax])
+#plt.clabel(CR,fontsize=10,fmt='%3.1f')
+#plt.show()
+
+#plt.pcolor(X,Y,Z)
+#plt.colorbar()
+#plt.show()
+
+#plt.contourf(X,Y,Z)
+#plt.gca().set_aspect('equal')
+#plt.colorbar()
+#filename = 'plot.png'
+#plt.savefig(filename)
+
+#plt.show()
+
+interval=20
+#interval=[3,5,7]
+cmap=cm.jet
+cmap.set_over('w',alpha=0)
+cmap.set_under('w',alpha=0)
+#cmap.set_under('w', alpha=0)
+CR = plt.contour(X,Y,Z, colors='k')
+plt.clabel(CR,fontsize=10,fmt='%1.1f')
+#CF = plt.contourf(X,Y,Z, interval, cmap=cmap)
+plt.imshow(Z, extent=[xmin,xmax,ymin,ymax], origin='lower')
+plt.colorbar()
+#plt.imshow(Z, origin='lower')
+plt.show()
