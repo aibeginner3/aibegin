@@ -78,3 +78,20 @@ plt.imshow(Z, extent=[xmin,xmax,ymin,ymax], origin='lower')
 plt.colorbar()
 #plt.imshow(Z, origin='lower')
 plt.show()
+
+$ sudo pip install pydot graphviz
+$ sudo -H python -m pip install pydot --upgrade
+$ sudo apt-get install graphviz
+$ sudo apt-get install python-pip
+$ sudo apt-get install gfortran
+$ sudo apt-get install python-dev python-numpy python-skimage
+$ sudo apt-get install python-matplotlib
+$ for req in $(cat requirements.txt); do pip install $req; done
+$ make pycaffe
+$ export PYTHONPATH=~/caffe/python/:$PYTHONPATH
+$ python draw_net.py ../examples/mnist/lenet.prototxt z.png --rankdir BT
+        TB: from UP to DOWN
+        RL: from Left to RIGHT
+
+$ sudo apt-get install python-pydot
+$ sudo pip install pydot2
