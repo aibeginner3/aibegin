@@ -1,1 +1,0 @@
-cmd /k set PATH=%PATH%;C:\tmp\Anaconda3;C:\tmp\Anaconda3\Scripts;C:\tmp\Anaconda3\Library\bin
