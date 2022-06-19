@@ -1,0 +1,60 @@
+from pulp import LpProblem, LpMaximize, LpMinimize, LpVariable, lpSum, LpStatus
+import pandas as pd
+
+# parameters
+df_volume = pd.read_csv('data_volume.csv', index_col=0)
+df_limits = pd.read_csv('data_limits.csv', index_col=0)
+df_needs  = pd.read_csv('data_needs.csv', index_col=0)
+
+df_vol = 1/df_volume.replace(0, 0.0001)
+#df_vol['U3'] = df_vol['U3'].replace(list(df_vol['U3'].values), 10000)
+print(df_vol)
+
+units = list(df_vol.columns.values)
+prods = list(df_vol.index.values)
+
+# variables
+produce = LpVariable.dicts('produce', (units, prods), 0, max(df_needs['needs']), 'Integer')
+
+# objective function
+total_time = lpSum(produce[unit][nprod] * df_vol[unit][nprod] for unit in units for nprod in prods)
+
+# model and objectives
+model = LpProblem("Manufacture", LpMinimize)
+model += total_time
+
+# constraints
+## sum of production
+for nprod in prods:
+    total_prod_amount = lpSum(produce[unit][nprod] for unit in units)
+    model += total_prod_amount == df_needs['needs'][nprod]
+
+## upper limits
+for unit in units:
+    total_time_each_unit = lpSum(produce[unit][nprod] * df_vol[unit][nprod] for nprod in prods)
+    model += total_time_each_unit <= df_limits[unit]['limits']
+
+#print(model)
+
+status = model.solve()
+
+print("Status:", LpStatus[status])
+print(model.objective.value())
+
+print('Result:')
+
+produce_value = {nprod: {unit: produce[unit][nprod].value() for unit in units} for nprod in prods}
+df_prod = pd.DataFrame(produce_value, index=units, columns=prods).T
+df_prod.to_csv('result_produce.csv')
+print(df_prod)
+
+produce_time = {nprod: {unit: produce[unit][nprod].value() * df_vol[unit][nprod] for unit in units} for nprod in prods}
+df_time = pd.DataFrame(produce_time, index=units, columns=prods).T
+df_time.to_csv('result_produce_time.csv')
+print(df_time)
+
+print('Number of Production')
+print(df_prod.sum(axis=1))
+
+print('Production Time')
+print(df_time.sum(axis=0))
