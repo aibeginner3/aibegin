@@ -1,0 +1,44 @@
+import pandas as pd
+import numpy as np
+import random
+
+xnum =  500
+ynum = 5000
+
+volume=[]
+for y in range(ynum):
+    tmp=[]
+    for x in range(xnum):
+        num = random.random()
+        if num < 0.8:
+            tmp.append(0)
+        else:
+            tmp.append(random.random()*10+20)
+    volume.append(tmp)
+
+units=[]
+limit=[]
+for x in range(xnum):
+    units.append('U{}'.format(x+1))
+    limit.append(396)
+
+prods=[]
+needs=[]
+for y in range(ynum):
+    prods.append('Prod{}'.format(y+1))
+    needs.append(random.random())
+
+needs = np.array(needs)*396*ynum*0.9/sum(needs)
+for i in range(len(needs)):
+    needs[i] = int(needs[i])
+
+
+df = pd.DataFrame(volume, index=prods, columns=units)
+df.to_csv('tmp_data_volume.csv')
+
+df_limit = pd.DataFrame(limit, index=units, columns=['limits']).T
+df_limit.to_csv('tmp_data_limits.csv')
+
+df_needs = pd.DataFrame(needs, index=prods, columns=['needs'])
+df_needs.to_csv('tmp_data_needs.csv')
+
